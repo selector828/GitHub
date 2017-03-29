@@ -1,17 +1,17 @@
 //[main.cpp 2017/03/18 - 2017/03/27]___________________________________
 #include "Selector.h"
 //[グローバル変数宣言 2017/03/18 - 2017/03/27]________________________
-LPDIRECT3D9        pD3d;
-LPDIRECT3DDEVICE9  pDevice;
-LPD3DXFONT         pFont;
-PCAMERA            pMainCamera;
-NETWORK            NetWork;
-PIC                Pictures[PIC_NUM];
-ANIM               Animations[ANIM_NUM];
-char               cKeys[ KEY_NUM ];
-bool               bKeys[ KEY_NUM ];
-int                nKeys[ KEY_NUM ];
-int                iKeys[ KEY_NUM ];
+LPDIRECT3D9       pD3d;
+LPDIRECT3DDEVICE9 pDevice;
+LPD3DXFONT        pFont;
+PCAMERA           pMainCamera;
+NETWORK           NetWork;
+PIC               Pictures[PIC_NUM];
+ANIM              Animations[ANIM_NUM];
+char              cKeys[ KEY_NUM ];
+bool              bKeys[ KEY_NUM ];
+UINT              nKeys[ KEY_NUM ];
+UINT              iKeys[ KEY_NUM ];
 //[メイン関数 2017/03/18 - 2017/03/27]_________________________________
 int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szStr, int CmdShow ) {
 	HWND hWnd = NULL;
@@ -147,10 +147,12 @@ void PICTURE::Set(float fPosX, float fPosY, float fPosZ, float fRotZ, float fSca
 }
 void PIC::Draw(void) {
 	if (this->pPicture != NULL) {
-		RECT rect = { (LONG)this->pPicture->Width / this->uWidth * (this->uPattern % this->uWidth),
-			(LONG)this->pPicture->Height / this->uHeight * (this->uPattern / this->uWidth),
-			(LONG)this->pPicture->Width / uWidth * (this->uPattern % this->uWidth) + (LONG)this->pPicture->Width / this->uWidth,
-			(LONG)this->pPicture->Height / this->uHeight * (this->uPattern / this->uWidth) + (LONG)this->pPicture->Height / this->uHeight };
+		RECT rect = { 
+			(LONG)(this->pPicture->Width / this->uWidth * (this->uPattern % this->uWidth)),
+			(LONG)(this->pPicture->Height / this->uHeight * (this->uPattern / this->uWidth)),
+			(LONG)(this->pPicture->Width / this->uWidth * (this->uPattern % this->uWidth) + this->pPicture->Width / this->uWidth),
+			(LONG)(this->pPicture->Height / this->uHeight * (this->uPattern / this->uWidth) + this->pPicture->Height / this->uHeight) 
+		};
 		D3DXVECTOR3 vec3Center(this->fPosX + this->pPicture->Width / 2, this->fPosY + this->pPicture->Height / 2, 0);
 		D3DXVECTOR3 vec3Position(this->fPosX, this->fPosY, 0);
 		D3DXVECTOR3 vec3Scale(this->fScaleX, this->fScaleY, 1.0f);
