@@ -51,6 +51,7 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szStr, int CmdSh
 			Draw();
 			#ifdef _DEBUG
 				Debug();
+				ShowFPS();
 			#endif
 			for( int nCnt = 0; nCnt < KEY_NUM; nCnt++ ) {
 				( bKeys[ nCnt ] ) ? nKeys[ nCnt ]++ : nKeys[ nCnt ] = 0;
@@ -64,7 +65,6 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szStr, int CmdSh
 			}
 			pDevice->EndScene();
 			pDevice->Present( NULL, NULL, NULL, NULL );
-			ShowFPS();
 		}
 	}
 	FreeDx();
