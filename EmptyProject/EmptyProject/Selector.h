@@ -20,7 +20,7 @@
 #define KEY_NUM      (  256 )
 #define PIC_NUM      ( 9999 )
 #define ANIM_NUM     ( 9999 )
-#define ANIM_PIC_NUM (    3 )
+#define ANIM_PIC_NUM (  999 )
 //[\‘¢‘ÌéŒ¾ 2017/03/18 - 2017/03/28]________________________________
 typedef struct {
 	int    nType;

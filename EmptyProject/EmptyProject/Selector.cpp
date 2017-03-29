@@ -108,7 +108,7 @@ HRESULT InitD3d( HWND hWnd ) {
 
 	pD3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &pDevice );
 
-	D3DXCreateFont( pDevice , 20 , 10 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , "MS ゴシック" , &pFont );
+	D3DXCreateFont( pDevice , 20, 10, 0, 0, 0, 0, 0, 0, 0, "MS ゴシック" , &pFont );
 
 	for ( int nCnt = 0; nCnt < KEY_NUM; nCnt++ ) {
 		ResetKeyDown( nCnt );
@@ -144,6 +144,9 @@ void PICTURE::Set(float fPosX, float fPosY, float fPosZ, float fRotZ, float fSca
 	Pictures[(UINT)fPosZ].uAlpha = uAlpha;
 	Pictures[(UINT)fPosZ].bApplyCamera = bApplyCamera;
 	Pictures[(UINT)fPosZ].pPicture = this;
+	char cText[CHAR_MAX];
+	sprintf(cText, "W:%f, H:%f", this->Width, this->Height);
+	DrawString(cText, 0, 0);
 }
 void PIC::Draw(void) {
 	if (this->pPicture != NULL) {
