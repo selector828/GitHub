@@ -1,0 +1,6 @@
+﻿  Selector.cpp
+c:\users\selector\documents\visual studio 2015\projects\github\emptyproject\emptyproject\selector.cpp(153): warning C4838: 'unsigned long' から 'LONG' への変換には縮小変換が必要です
+  main.cpp
+  コードを生成中...
+  EmptyProject.vcxproj -> C:\Users\Selector\Documents\Visual Studio 2015\Projects\GitHub\EmptyProject\Debug\EmptyProject.exe
+  EmptyProject.vcxproj -> C:\Users\Selector\Documents\Visual Studio 2015\Projects\GitHub\EmptyProject\Debug\EmptyProject.pdb (Partial PDB)
