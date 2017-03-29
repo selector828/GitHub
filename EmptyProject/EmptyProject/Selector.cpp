@@ -5,13 +5,13 @@ LPDIRECT3D9       pD3d;
 LPDIRECT3DDEVICE9 pDevice;
 LPD3DXFONT        pFont;
 PCAMERA           pMainCamera;
-NETWORK           NetWork;
-PIC               Pictures[PIC_NUM];
+DATABASE          Database;
+PIC               Pics[PIC_NUM];
 ANIM              Animations[ANIM_NUM];
-char              cKeys[ KEY_NUM ];
-bool              bKeys[ KEY_NUM ];
-UINT              nKeys[ KEY_NUM ];
-UINT              iKeys[ KEY_NUM ];
+char              cKeys[KEY_NUM];
+bool              bKeys[KEY_NUM];
+UINT              nKeys[KEY_NUM];
+UINT              iKeys[KEY_NUM];
 //[ƒƒCƒ“ŠÖ” 2017/03/18 - 2017/03/27]_________________________________
 int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szStr, int CmdShow ) {
 	HWND hWnd = NULL;
@@ -50,6 +50,7 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szStr, int CmdSh
 			Update();
 			Draw();
 			#ifdef _DEBUG
+				OnDebug();
 				Debug();
 				ShowFPS();
 			#endif
@@ -128,25 +129,39 @@ void PICTURE::Load(char cFileName[]) {
 	this->Width = ( float )SurfaceInfo.Width + ( 16 - ( SurfaceInfo.Width % 16 ) ) % 16;
 	this->Height = ( float )SurfaceInfo.Height + ( 16 - ( SurfaceInfo.Height % 16 ) ) % 16;
 	SAFE_RELEASE( pSurface );
+	strcpy(this->cFileName, cFileName);
 }
 void PICTURE::Set(float fPosX, float fPosY, float fPosZ, float fRotZ, float fScaleX, float fScaleY, UINT uWidth, UINT uHeight, UINT uPattern, UINT uRed, UINT uGreen, UINT uBlue, UINT uAlpha, bool bApplyCamera) {
-	Pictures[(UINT)fPosZ].fPosX = fPosX;
-	Pictures[(UINT)fPosZ].fPosY = fPosY;
-	Pictures[(UINT)fPosZ].fRotZ = fRotZ;
-	Pictures[(UINT)fPosZ].fScaleX = fScaleX;
-	Pictures[(UINT)fPosZ].fScaleY = fScaleY;
-	Pictures[(UINT)fPosZ].uWidth = uWidth;
-	Pictures[(UINT)fPosZ].uHeight = uHeight;
-	Pictures[(UINT)fPosZ].uPattern = uPattern;
-	Pictures[(UINT)fPosZ].uRed = uRed;
-	Pictures[(UINT)fPosZ].uGreen = uGreen;
-	Pictures[(UINT)fPosZ].uBlue = uBlue;
-	Pictures[(UINT)fPosZ].uAlpha = uAlpha;
-	Pictures[(UINT)fPosZ].bApplyCamera = bApplyCamera;
-	Pictures[(UINT)fPosZ].pPicture = this;
-	char cText[CHAR_MAX];
-	sprintf(cText, "W:%f, H:%f", this->Width, this->Height);
-	DrawString(cText, 0, 0);
+	Pics[(UINT)fPosZ].fPosX = fPosX;
+	Pics[(UINT)fPosZ].fPosY = fPosY;
+	Pics[(UINT)fPosZ].fRotZ = fRotZ;
+	Pics[(UINT)fPosZ].fScaleX = fScaleX;
+	Pics[(UINT)fPosZ].fScaleY = fScaleY;
+	Pics[(UINT)fPosZ].uWidth = uWidth;
+	Pics[(UINT)fPosZ].uHeight = uHeight;
+	Pics[(UINT)fPosZ].uPattern = uPattern;
+	Pics[(UINT)fPosZ].uRed = uRed;
+	Pics[(UINT)fPosZ].uGreen = uGreen;
+	Pics[(UINT)fPosZ].uBlue = uBlue;
+	Pics[(UINT)fPosZ].uAlpha = uAlpha;
+	Pics[(UINT)fPosZ].bApplyCamera = bApplyCamera;
+	Pics[(UINT)fPosZ].pPicture = this;
+}
+void SetPicture( char cFileName[], float fPosX, float fPosY, float fPosZ, float fRotZ, float fScaleX, float fScaleY, UINT uWidth, UINT uHeight, UINT uPattern, UINT uRed, UINT uGreen, UINT uBlue, UINT uAlpha, bool bApplyCamera) {
+	Pics[(UINT)fPosZ].fPosX = fPosX;
+	Pics[(UINT)fPosZ].fPosY = fPosY;
+	Pics[(UINT)fPosZ].fRotZ = fRotZ;
+	Pics[(UINT)fPosZ].fScaleX = fScaleX;
+	Pics[(UINT)fPosZ].fScaleY = fScaleY;
+	Pics[(UINT)fPosZ].uWidth = uWidth;
+	Pics[(UINT)fPosZ].uHeight = uHeight;
+	Pics[(UINT)fPosZ].uPattern = uPattern;
+	Pics[(UINT)fPosZ].uRed = uRed;
+	Pics[(UINT)fPosZ].uGreen = uGreen;
+	Pics[(UINT)fPosZ].uBlue = uBlue;
+	Pics[(UINT)fPosZ].uAlpha = uAlpha;
+	Pics[(UINT)fPosZ].bApplyCamera = bApplyCamera;
+	Pics[(UINT)fPosZ].pPicture = SearchPicture(cFileName);
 }
 void PIC::Draw(void) {
 	if (this->pPicture != NULL) {
@@ -156,7 +171,7 @@ void PIC::Draw(void) {
 			(LONG)(this->pPicture->Width / this->uWidth * (this->uPattern % this->uWidth) + this->pPicture->Width / this->uWidth),
 			(LONG)(this->pPicture->Height / this->uHeight * (this->uPattern / this->uWidth) + this->pPicture->Height / this->uHeight) 
 		};
-		D3DXVECTOR3 vec3Center(this->fPosX + this->pPicture->Width / 2, this->fPosY + this->pPicture->Height / 2, 0);
+		D3DXVECTOR3 vec3Center(this->fPosX + this->pPicture->Width / this->uWidth / 2, this->fPosY + this->pPicture->Height / this->uHeight / 2, 0);
 		D3DXVECTOR3 vec3Position(this->fPosX, this->fPosY, 0);
 		D3DXVECTOR3 vec3Scale(this->fScaleX, this->fScaleY, 1.0f);
 		D3DXMATRIX matWorld, matScale, matRotationZ, matTranslation;
@@ -188,19 +203,21 @@ void PIC::Release(void) {
 }
 void ANIMATION::Set( UINT uAnim, float fPosX, float fPosY, float fRotZ, float fScaleX, float fScaleY, UINT uRed, UINT uGreen, UINT uBlue, UINT uAlpha, bool bApplyCamera, bool bLoop ) {
 	if (Animations[uAnim].pAnimation == NULL) {
-		Animations[uAnim].fPosX = fPosX;
-		Animations[uAnim].fPosY = fPosY;
-		Animations[uAnim].fRotZ = fRotZ;
-		Animations[uAnim].fScaleX = fScaleX;
-		Animations[uAnim].fScaleY = fScaleY;
-		Animations[uAnim].uRed = uRed;
-		Animations[uAnim].uGreen = uGreen;
-		Animations[uAnim].uBlue = uBlue;
-		Animations[uAnim].uAlpha = uAlpha;
-		Animations[uAnim].bApplyCamera = bApplyCamera;
-		Animations[uAnim].bLoop = bLoop;
-		Animations[uAnim].pAnimation = this;
-		Animations[uAnim].pAnimation->uPic = 0;
+		if ((this->pPicture = SearchPicture(this->cFileName)) != NULL) {
+			Animations[uAnim].fPosX = fPosX;
+			Animations[uAnim].fPosY = fPosY;
+			Animations[uAnim].fRotZ = fRotZ;
+			Animations[uAnim].fScaleX = fScaleX;
+			Animations[uAnim].fScaleY = fScaleY;
+			Animations[uAnim].uRed = uRed;
+			Animations[uAnim].uGreen = uGreen;
+			Animations[uAnim].uBlue = uBlue;
+			Animations[uAnim].uAlpha = uAlpha;
+			Animations[uAnim].bApplyCamera = bApplyCamera;
+			Animations[uAnim].bLoop = bLoop;
+			Animations[uAnim].pAnimation = this;
+			Animations[uAnim].pAnimation->uPic = 0;
+		}
 	}
 }
 void ANIMATION::Delete( UINT uAnim ) {
@@ -220,89 +237,29 @@ void ANIM::Draw(void) {
 void ANIM::Release(void) {
 	this->pAnimation = NULL;
 }
-void NETWORK::Init( void ) {
-	WSADATA wsaData;
-	SOCKET  sock;
-	struct  sockaddr_in addr;
-	struct  sockaddr_in client;
-	struct  sockaddr_in server;
-
-	int     nLen;
-	int     nErr;
-	char    cJoinMessage[ CHAR_MAX ];
-	char    cMessage[ CHAR_MAX ];
-
-	nErr = WSAStartup( MAKEWORD( 2, 0 ), &wsaData );
-
-	if ( nErr != 0 ) {
-		switch ( nErr ) {
-		case WSASYSNOTREADY:
-			printf("WSASYSNOTREADY\n");
-			break;
-		case WSAVERNOTSUPPORTED:
-			printf("WSAVERNOTSUPPORTED\n");
-			break;
-		case WSAEINPROGRESS:
-			printf("WSAEINPROGRESS\n");
-			break;
-		case WSAEPROCLIM:
-			printf("WSAEPROCLIM\n");
-			break;
-		case WSAEFAULT:
-			printf("WSAEFAULT\n");
-			break;
-		}
-		exit(0);
-	}
-
-	sock = socket( AF_INET, SOCK_STREAM, 0 );
-	if ( sock == INVALID_SOCKET ) exit(0);
-
-	if ( this->nType == 1 ) {
-		addr.sin_family = AF_INET;
-		addr.sin_port = htons( 12345 );
-		addr.sin_addr.S_un.S_addr = INADDR_ANY;
-		bind( sock, ( struct sockaddr * )&addr, sizeof( addr ) );
-
-		listen( sock, 1 );
-
-		nLen = sizeof( client );
-		printf( "Client‘Ò‚¿,,,\n" );
-		this->sock = accept( sock, ( struct sockaddr * )&client, &nLen );
-		sprintf( cMessage, "ƒ‹[ƒ€‚É“üê‚µ‚Ü‚µ‚½B\n" );
-		send( this->sock, cMessage, strlen( cMessage ), 0 );
-		memset( cJoinMessage, 0, sizeof( cJoinMessage ) );
-		recv( this->sock, cJoinMessage, sizeof( cJoinMessage ), 0 );
-		printf( "%s", cJoinMessage );
-	} else if ( this->nType == 2 ) {
-		server.sin_family = AF_INET;
-		server.sin_port = htons( 12345 );
-		server.sin_addr.S_un.S_addr = inet_addr( "127.0.0.1" );
-		connect( sock, ( struct sockaddr * )&server, sizeof( server ) );
-		memset( cJoinMessage, 0, sizeof( cJoinMessage ) );
-		if ( recv( sock, cJoinMessage, sizeof( cJoinMessage ), 0 ) == - 1 ) exit( 0 );
-		send( sock, cMessage, strlen( cMessage ), 0 );
-		this->sock = sock;
-	}
-}
-void NETWORK::Update( void ) {
-
-}
 void Draw(void) {
 	for (UINT n = 0; n < ANIM_NUM; n++) {
 		Animations[n].Draw();
 	}
 	for (UINT n = (UINT)pMainCamera->fPosZ; n < PIC_NUM; n++) {
-		Pictures[n].Draw();
+		Pics[n].Draw();
 	}
 }
-void DrawString( char cText[], int nX, int nY ) {
+void DrawString(char cText[], int nX, int nY) {
 	RECT rc;
-	rc.left   = nX;
-	rc.top    = nY;
-	rc.right  = WINDOW_WIDTH;
+	rc.left = nX;
+	rc.top = nY;
+	rc.right = WINDOW_WIDTH;
 	rc.bottom = WINDOW_HEIGHT;
-	pFont->DrawText( NULL , cText , -1 , &rc , NULL , 0xFF88FF88 );
+	pFont->DrawText(NULL, cText, -1, &rc, NULL, 0xFF88FF88);
+}
+void Debug(void) {
+	char cLog[WINDOW_HEIGHT*CHAR_MAX];
+	sprintf(cLog, "MainCamera X:%3.3f Y:%3.3f Z:%3.3f Rot:%3.3f\nW:%2.3f H:%2.3f R:%3d G:%3d B:%3d A:%3d",
+		pMainCamera->fPosX, pMainCamera->fPosY, pMainCamera->fPosZ, pMainCamera->fRotZ, 
+		pMainCamera->fScaleX, pMainCamera->fScaleY, pMainCamera->uRed, pMainCamera->uGreen, 
+		pMainCamera->uBlue, pMainCamera->uAlpha);
+	DrawString(cLog, 0, 0);
 }
 void FreeDx( void ) {
 	SAFE_RELEASE( pDevice );
@@ -337,5 +294,39 @@ void ResetKeyDown( WPARAM wParam ) {
 }
 void SetMainCamera( CAMERA * Camera ) {
 	pMainCamera = Camera;
+}
+PPICTURE LoadPicture(char cFileName[]) {
+	for (UINT n = 0; n < PIC_NUM; n++) {
+		if (Database.Pictures[n].pSprite == NULL) {
+			Database.Pictures[n].Load(cFileName);
+			return &Database.Pictures[n];
+		}
+	}
+	return NULL;
+}
+PPICTURE SearchPicture(char cFileName[]) {
+	for (UINT n = 0; n < PIC_NUM; n++) {
+		if (!strcmp(cFileName, Database.Pictures[n].cFileName)) {
+			return &Database.Pictures[n];
+		}
+	}
+	return NULL;
+}
+PANIMATION LoadAnimation(char cFileName[]) {
+	for (UINT n = 0; n < ANIM_NUM; n++) {
+		if (Database.Animations[n].pPicture == NULL) {
+			//Database.Animations[n].Load(cFileName);
+			return &Database.Animations[n];
+		}
+	}
+	return NULL;
+}
+PANIMATION SearchAnimation(char cFileName[]) {
+	for (UINT n = 0; n < ANIM_NUM; n++) {
+		if (!strcmp(cFileName, Database.Animations[n].cFileName)) {
+			return &Database.Animations[n];
+		}
+	}
+	return NULL;
 }
 //[END]________________________________________________________________

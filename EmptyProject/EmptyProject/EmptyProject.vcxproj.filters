@@ -31,5 +31,8 @@
     <None Include="Camera.conf">
       <Filter>リソース ファイル</Filter>
     </None>
+    <None Include="absorb.anim">
+      <Filter>リソース ファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>

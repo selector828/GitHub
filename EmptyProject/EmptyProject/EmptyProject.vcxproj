@@ -124,6 +124,7 @@
     <ClInclude Include="Selector.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="absorb.anim" />
     <None Include="Camera.conf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

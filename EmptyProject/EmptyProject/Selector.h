@@ -17,18 +17,12 @@
 #define WINDOW_HEIGHT ( 600	)
 #define WINDOW_TITLE  "ウィンドウタイトル"
 #define PI ( 3.14159265359f / 360.0f )
+#define PIC_MAX      ( 9999 )
 #define KEY_NUM      (  256 )
 #define PIC_NUM      ( 9999 )
 #define ANIM_NUM     ( 9999 )
 #define ANIM_PIC_NUM (  999 )
 //[構造体宣言 2017/03/18 - 2017/03/28]________________________________
-typedef struct {
-	int    nType;
-	SOCKET sock;
-
-	void Init(void);
-	void Update(void);
-} NETWORK, *PNETWORK;
 typedef struct {
 	float fPosX;
 	float fPosY;
@@ -43,6 +37,7 @@ typedef struct {
 } CAMERA, *PCAMERA;
 typedef struct {
 	/*変数*/
+	char               cFileName[CHAR_MAX];
 	LPDIRECT3DTEXTURE9 pTexture;
 	LPD3DXSPRITE       pSprite;
 	float              Width;
@@ -54,7 +49,6 @@ typedef struct {
 typedef struct {
 	/*変数*/
 	PPICTURE           pPicture;
-	char               cFileName[CHAR_MAX];
 	float              fPosX;
 	float              fPosY;
 	float              fRotZ;
@@ -116,21 +110,30 @@ typedef struct {
 	void Draw(void);
 	void Release(void);
 } ANIM;
+typedef struct {
+	PICTURE   Pictures[PIC_NUM];
+	ANIMATION Animations[ANIM_NUM];
+} DATABASE;
 //[マクロ定義 2017/03/18 - 2017/03/18]_______________________________
 #define SAFE_RELEASE( p ) { if( p ) { ( p )->Release(); ( p ) = NULL; } }
 //[関数プロトタイプ 2017/03/18 - 2017/03/28]_________________________
-LRESULT CALLBACK WndProc( HWND, UINT, WPARAM, LPARAM );
-HRESULT InitD3d( HWND );
-void FreeDx( void );
-void Init( void );
-void Update( void );
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+HRESULT InitD3d(HWND);
+void FreeDx(void);
+void Init(void);
+void Update(void);
 void Draw(void);
-void Debug( void );
+void Debug(void);
+void OnDebug(void);
 void DrawString(char cText[], int nX, int nY);
 int  GetKeyUp( WPARAM wParam );
 int  GetKeyDown( WPARAM wParam );
 void ResetKeyDown( WPARAM wParam );
-void ShowFPS( void );
-void SetMainCamera( CAMERA * Camera );
+void ShowFPS(void);
+void SetMainCamera(CAMERA * Camera);
+PPICTURE LoadPicture(char cFileName[]);
+PPICTURE SearchPicture( char cFileName[]);
+void SetPicture(char cFileName[], float fPosX, float fPosY, float fPosZ, float fRotZ, float fScaleX, float fScaleY, UINT uWidth, UINT uHeight, UINT uPattern, UINT uRed, UINT uGreen, UINT uBlue, UINT uAlpha, bool bApplyCamera);
+
 //[END]______________________________________________________________
 #endif

@@ -1,0 +1,19 @@
+"Pictures/Absorb.png", //pPicture
+5, //uWidth
+5, //uHeight
+{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, //uPattern
+{ 0, 0, 0 }, //fRelPosX
+{ 0, 0 }, //fRelPosY
+{ 2, 2, 2, 2, 2 }, //fRelPosZ
+{ 0, 0 }, //fRelRotZ
+{ 0, 0 }, //fRelScaleX
+{ 0, 0 }, //fRelScaleY
+{ 0, 0 }, //fRelRed
+{ 0, 0 }, //fRelGreen
+{ 0, 0 }, //fRelBlue
+{ 0, 0 }, //fRelAlpha
+{ 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f }, //fDuration
+1.0f, //fSpeed
+0, //fTime
+0, //uPic
+9 //uMax

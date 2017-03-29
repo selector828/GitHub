@@ -1,4 +1,5 @@
 ﻿  main.cpp
   Selector.cpp
-c:\users\selector\documents\visual studio 2015\projects\github\emptyproject\emptyproject\selector.cpp(49): error C2146: 構文エラー: ')' が、識別子 'f' の前に必要です。
   コードを生成中...
+  EmptyProject.vcxproj -> C:\Users\Selector\Documents\Visual Studio 2015\Projects\GitHub\EmptyProject\Debug\EmptyProject.exe
+  EmptyProject.vcxproj -> C:\Users\Selector\Documents\Visual Studio 2015\Projects\GitHub\EmptyProject\Debug\EmptyProject.pdb (Partial PDB)
