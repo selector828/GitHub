@@ -1,0 +1,10 @@
+﻿  Selector.cpp
+Selector.cpp(68): warning C4551: 関数呼び出しに引数リストがありません。
+  main.cpp
+  コード生成しています。
+  1 of 20 functions ( 5.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  コード生成が終了しました。
+  AniMaker.vcxproj -> C:\Users\Selector\Documents\Visual Studio 2015\Projects\GitHub\AniMaker\Release\AniMaker.exe
+  AniMaker.vcxproj -> C:\Users\Selector\Documents\Visual Studio 2015\Projects\GitHub\AniMaker\Release\AniMaker.pdb (Full PDB)
