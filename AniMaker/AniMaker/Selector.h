@@ -137,5 +137,6 @@ void SetMainCamera(CAMERA * Camera);
 PPICTURE LoadPicture(char cFileName[]);
 PPICTURE SearchPicture( char cFileName[]);
 void SetPicture(char cFileName[], float fPosX, float fPosY, float fPosZ, float fRotZ, float fScaleX, float fScaleY, UINT uWidth, UINT uHeight, UINT uPattern, UINT uRed, UINT uGreen, UINT uBlue, UINT uAlpha, bool bApplyCamera);
+void OnClickButton(WPARAM wParam);
 //[END]______________________________________________________________
 #endif

@@ -34,8 +34,33 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szStr, int CmdSh
 	RegisterClassEx( &wndClass );
 
 	hWnd = CreateWindow( WINDOW_TITLE, WINDOW_TITLE, WS_OVERLAPPEDWINDOW, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, NULL, NULL, hInst, NULL );
+	//hWnd = CreateWindowEx(WS_EX_LEFT, WINDOW_TITLE, WINDOW_TITLE, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInst, NULL);
+	HWND hWnd2 = CreateWindowEx(WS_EX_LEFT, WINDOW_TITLE, WINDOW_TITLE, 
+		WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, 300, 600, NULL, NULL, hInst, NULL);
+	HWND hButton = CreateWindowEx(
+		WS_EX_LEFT, TEXT("BUTTON"), TEXT("Loop"),
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		0, 0, 50, 50,
+		hWnd2, HMENU(50), hInst, NULL);
+	CreateWindowEx(
+		WS_EX_LEFT, TEXT("BUTTON"), TEXT("Play"),
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		50, 0, 50, 50,
+		hWnd2, HMENU(51), hInst, NULL);
+	CreateWindowEx(
+		WS_EX_LEFT, TEXT("BUTTON"), TEXT("Stop"),
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		100, 0, 50, 50,
+		hWnd2, HMENU(52), hInst, NULL);
+	CreateWindowEx(
+		WS_EX_LEFT, TEXT("EDIT"), TEXT("Stop"),
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		0, 50, 100, 50,
+		hWnd2, HMENU(53), hInst, NULL);
+	
 	ShowWindow( hWnd, SW_SHOW );
 	UpdateWindow( hWnd );
+	
 
 	InitD3d( hWnd );
 
@@ -98,6 +123,11 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 		cKeys[ wParam ] = '0';
 		bKeys[ wParam ] = false;
 		break;
+	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED) {
+			OnClickButton(LOWORD(wParam));
+		}
+		return 0;
 	}
 	return DefWindowProc( hWnd, uMsg, wParam, lParam );
 }
